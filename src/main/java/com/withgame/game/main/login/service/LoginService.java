@@ -26,7 +26,6 @@ public class LoginService {
             HtmlInput userPassword = (HtmlInput) page.getElementByName("pass");
 
             wc.getOptions().setThrowExceptionOnScriptError(false);
-            wc.getOptions().setCssEnabled(false);
             wc.getOptions().setUseInsecureSSL(true);
 
             wc.waitForBackgroundJavaScript(10000);
@@ -52,20 +51,22 @@ public class LoginService {
             HtmlPage page2 = wc.getPage("https://donderhiroba.jp/login_select.php");
 
             System.out.println(page2.asNormalizedText());
-            Thread.sleep(3500);
+            // Thread.sleep(3500);
 
-            try {
-                HtmlAnchor button3 = page2.getAnchorByHref("javascript:void(0)");
-                button3.click();
-            } catch (Exception e) {
-                System.out.println("페이지 접속실패 ");
-            }
+            // try {
+            // HtmlAnchor button3 = page2.getAnchorByHref("javascript:void(0)");
+            // button3.click();
+            // } catch (Exception e) {
+            // System.out.println("페이지 접속실패 ");
+            // }
 
-            // 유저 정보 페이지
-            HtmlPage page3 = wc.getPage("https://donderhiroba.jp/index.php");
-            HtmlElement myDonImg = page3.getFirstByXPath("//div[@id='mydon_area']/div[3]/div[2]/img"); // 마이동 이미지
+            // // 유저 정보 페이지
+            // HtmlPage page3 = wc.getPage("https://donderhiroba.jp/index.php");
+            // HtmlElement myDonImg =
+            // page3.getFirstByXPath("//div[@id='mydon_area']/div[3]/div[2]/img"); // 마이동
+            // 이미지
 
-            System.out.println("마이동 이미지 : " + myDonImg);
+            // System.out.println("마이동 이미지 : " + myDonImg);
         } catch (Exception e) {
             System.out.println("error");
         }

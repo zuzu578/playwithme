@@ -50,17 +50,18 @@ public class LoginService {
             button3.click();
 
             HtmlPage page3 = wc.getPage("https://donderhiroba.jp/index.php");
+
             HtmlElement myDonImg = page3.getFirstByXPath("//div[@id='mydon_area']/div[3]/div[2]/img"); // 마이동
             HtmlElement nickName = page3.getFirstByXPath("/html/body/div[1]/div/div[3]/div[2]/div[1]");
-            HtmlElement dan = page3.getFirstByXPath("/html/body/div[1]/div/div[3]/div[2]/div[2]/img");
-            System.out.println("dan" + dan);
+            HtmlElement danwi = page3.getFirstByXPath("//div[@id='mydon_area']/div[2]/div[2]/img"); // 단위
+            System.out.println("dan" + danwi);
             System.out.println("testsetstes" + nickName.asNormalizedText());
 
             HashMap<String, Object> userData = new HashMap<String, Object>();
 
             userData.put("mydon", myDonImg.toString());
-            userData.put("dan", dan.asNormalizedText());
-            userData.put("nickName", nickName.toString());
+            userData.put("dan", danwi.toString());
+            userData.put("nickName", nickName.asNormalizedText());
 
             return userData;
         } catch (Exception e) {

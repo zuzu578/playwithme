@@ -5,8 +5,7 @@ import java.util.HashMap;
 import org.springframework.stereotype.Service;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.DomElement;
-import com.gargoylesoftware.htmlunit.html.DomNodeList;
+
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;

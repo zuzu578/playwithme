@@ -30,6 +30,28 @@ public class PlayBoardEntity {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "danwi_rank")
+    private String danwiRank;
+
+    @Column(name = "twitter_account")
+    private String twitterAccount;
+
+    public String getTwitterAccount() {
+        return twitterAccount;
+    }
+
+    public void setTwitterAccount(String twitterAccount) {
+        this.twitterAccount = twitterAccount;
+    }
+
+    public String getDanwiRank() {
+        return danwiRank;
+    }
+
+    public void setDanwiRank(String danwiRank) {
+        this.danwiRank = danwiRank;
+    }
+
     public int getIdx() {
         return idx;
     }

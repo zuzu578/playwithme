@@ -30,47 +30,38 @@ public class LoginService {
 
             wc.waitForBackgroundJavaScript(10000);
 
-            System.out.println(page.asXml());
-            userId.setValueAttribute(id);
-            userPassword.setValueAttribute(password);
-
-            System.out
-                    .println("입력한 id =>" + userId.getValueAttribute() + "입력한 pw =>" + userPassword.getValueAttribute());
+            userId.setValueAttribute("dlwnghks6821@naver.com");
+            userPassword.setValueAttribute("lms3821su");
 
             HtmlElement loginBtn = page
                     .getFirstByXPath("//button[@class='btn _btn-size-50 _btn-yellow']");
 
-            // button2.removeAttribute("disabled");
-            // button2.removeAllChildren();
-            // button2.removeStyleAttribute("disabled");
-
             loginBtn.click();
             // 필수
-            Thread.sleep(6000);
+            Thread.sleep(8000);
 
             HtmlPage page2 = wc.getPage("https://donderhiroba.jp/login_select.php");
 
             System.out.println(page2.asNormalizedText());
             // Thread.sleep(3500);
+            HtmlAnchor button3 = page2.getAnchorByHref("javascript:void(0)");
+            button3.click();
 
-            // try {
-            // HtmlAnchor button3 = page2.getAnchorByHref("javascript:void(0)");
-            // button3.click();
-            // } catch (Exception e) {
-            // System.out.println("페이지 접속실패 ");
-            // }
+            HtmlPage page3 = wc.getPage("https://donderhiroba.jp/index.php");
+            HtmlElement myDonImg = page3.getFirstByXPath("//div[@id='mydon_area']/div[3]/div[2]/img"); // 마이동
+            // HtmlElement nickName =
+            // page3.getFirstByXPath("/html/body/div[1]/div/div[3]/div[2]/div[1]");
+            // HtmlElement dan =
+            // page3.getFirstByXPath("/html/body/div[1]/div/div[3]/div[2]/div[2]/img");
+            // System.out.println("dan" + dan);
+            // System.out.println("testsetstes" + nickName.asNormalizedText());
+            System.out.println("마이동 이미지 : " + myDonImg.toString().replaceAll("amp;", ""));
 
-            // // 유저 정보 페이지
-            // HtmlPage page3 = wc.getPage("https://donderhiroba.jp/index.php");
-            // HtmlElement myDonImg =
-            // page3.getFirstByXPath("//div[@id='mydon_area']/div[3]/div[2]/img"); // 마이동
-            // 이미지
-
-            // System.out.println("마이동 이미지 : " + myDonImg);
+            return null;
         } catch (Exception e) {
-            System.out.println("error");
+            return null;
         }
-        return null;
+
     }
 
 }

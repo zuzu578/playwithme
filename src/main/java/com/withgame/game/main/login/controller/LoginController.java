@@ -2,6 +2,7 @@ package com.withgame.game.main.login.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,14 +27,14 @@ public class LoginController {
     }
 
     @PostMapping("/login.do")
-    public String login(@RequestBody LoginVO loginParameters)
+    public HashMap<String, Object> login(@RequestBody LoginVO loginParameters)
             throws FailingHttpStatusCodeException, MalformedURLException, IOException, InterruptedException {
         String id = loginParameters.getUserId();
         String password = loginParameters.getUserPassword();
 
-        loginService.doLogin(id, password);
+        HashMap<String, Object> myDonImg = loginService.doLogin(id, password);
 
-        return "test";
+        return myDonImg;
     }
 
 }

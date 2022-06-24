@@ -1,5 +1,7 @@
 package com.withgame.game.main.login.service;
 
+import java.util.HashMap;
+
 import org.springframework.stereotype.Service;
 
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -15,7 +17,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 @Service
 public class LoginService {
 
-    public String doLogin(String id, String password) {
+    public HashMap<String, Object> doLogin(String id, String password) {
         WebClient wc = new WebClient();
         String url = "https://account.bandainamcoid.com/login.html?client_id=nbgi_taiko&customize_id=&redirect_uri=https%3A%2F%2Fwww.bandainamcoid.com%2Fv2%2Foauth2%2Fauth%3Fback%3Dv3%26client_id%3Dnbgi_taiko%26scope%3DJpGroupAll%26redirect_uri%3Dhttps%253A%252F%252Fdonderhiroba.jp%252Flogin_process.php%253Finvite_code%253D%2526abs_back_url%253D%2526location_code%253D%26text%3D&prompt=login";
         wc.getOptions().setThrowExceptionOnScriptError(false);
@@ -38,7 +40,7 @@ public class LoginService {
 
             loginBtn.click();
             // 필수
-            Thread.sleep(8000);
+            Thread.sleep(7000);
 
             HtmlPage page2 = wc.getPage("https://donderhiroba.jp/login_select.php");
 
@@ -49,15 +51,18 @@ public class LoginService {
 
             HtmlPage page3 = wc.getPage("https://donderhiroba.jp/index.php");
             HtmlElement myDonImg = page3.getFirstByXPath("//div[@id='mydon_area']/div[3]/div[2]/img"); // 마이동
-            // HtmlElement nickName =
-            // page3.getFirstByXPath("/html/body/div[1]/div/div[3]/div[2]/div[1]");
-            // HtmlElement dan =
-            // page3.getFirstByXPath("/html/body/div[1]/div/div[3]/div[2]/div[2]/img");
-            // System.out.println("dan" + dan);
-            // System.out.println("testsetstes" + nickName.asNormalizedText());
-            System.out.println("마이동 이미지 : " + myDonImg.toString().replaceAll("amp;", ""));
+            HtmlElement nickName = page3.getFirstByXPath("/html/body/div[1]/div/div[3]/div[2]/div[1]");
+            HtmlElement dan = page3.getFirstByXPath("/html/body/div[1]/div/div[3]/div[2]/div[2]/img");
+            System.out.println("dan" + dan);
+            System.out.println("testsetstes" + nickName.asNormalizedText());
 
-            return null;
+            HashMap<String, Object> userData = new HashMap<String, Object>();
+
+            userData.put("mydon", myDonImg.toString());
+            userData.put("dan", dan.asNormalizedText());
+            userData.put("nickName", nickName.toString());
+
+            return userData;
         } catch (Exception e) {
             return null;
         }

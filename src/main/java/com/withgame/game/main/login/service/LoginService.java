@@ -45,9 +45,8 @@ public class LoginService {
         PasswordCrypto crypto = new PasswordCrypto();
 
         HashMap<String, Object> userData = new HashMap<String, Object>();
-        password = crypto.passwordCrypting(password);
 
-        userInfo = loginQuery.selectUser(id, password);
+        userInfo = loginQuery.selectUser(id, crypto.passwordCrypting(password));
 
         if (userInfo != null) {
             userData.put("donderName", userInfo.getDonderName());

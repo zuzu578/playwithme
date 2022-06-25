@@ -20,6 +20,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.querydsl.core.NonUniqueResultException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.withgame.game.main.login.QueryBuilder.LoginQuery;
 import com.withgame.game.main.login.entity.QUserEntity;
 import com.withgame.game.main.login.entity.UserEntity;
 import com.withgame.game.main.login.repository.LoginRepository;
@@ -28,14 +29,13 @@ import com.withgame.game.main.login.utils.PasswordCrypto;
 @Service
 public class LoginService {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    UserEntity userInfo;
 
-    private LoginRepository loginRepository;
+    private LoginQuery loginQuery;
 
     @Autowired
-    LoginService(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    LoginService(LoginQuery loginQuery) {
+        this.loginQuery = loginQuery;
 
     }
 
@@ -43,15 +43,11 @@ public class LoginService {
             throws NonUniqueResultException, NoSuchAlgorithmException {
 
         PasswordCrypto crypto = new PasswordCrypto();
-        HashMap<String, Object> userData = new HashMap<String, Object>();
-        QUserEntity user = new QUserEntity("user");
-        JPAQueryFactory queryBuilder = new JPAQueryFactory(entityManager);
 
-        UserEntity userInfo = queryBuilder
-                .select(user)
-                .from(user)
-                .where(user.userId.eq(id).and(user.userPassword.eq(crypto.passwordCrypting(password))))
-                .fetchOne();
+        HashMap<String, Object> userData = new HashMap<String, Object>();
+        password = crypto.passwordCrypting(password);
+
+        userInfo = loginQuery.selectUser(id, password);
 
         if (userInfo != null) {
             userData.put("donderName", userInfo.getDonderName());
@@ -73,8 +69,8 @@ public class LoginService {
 
                 wc.waitForBackgroundJavaScript(10000);
 
-                userId.setValueAttribute("dlwnghks6821@naver.com");
-                userPassword.setValueAttribute("lms3821su");
+                userId.setValueAttribute(id);
+                userPassword.setValueAttribute(password);
 
                 HtmlElement loginBtn = page
                         .getFirstByXPath("//button[@class='btn _btn-size-50 _btn-yellow']");
@@ -95,25 +91,15 @@ public class LoginService {
                 HtmlElement myDonImg = page3.getFirstByXPath("//div[@id='mydon_area']/div[3]/div[2]/img"); // 마이동
                 HtmlElement nickName = page3.getFirstByXPath("/html/body/div[1]/div/div[3]/div[2]/div[1]");
                 HtmlElement danwi = page3.getFirstByXPath("//div[@id='mydon_area']/div[2]/div[2]/img"); // 단위
-                System.out.println("dan" + danwi);
-                System.out.println("testsetstes" + nickName.asNormalizedText());
+                // System.out.println("dan" + danwi);
+                // System.out.println("testsetstes" + nickName.asNormalizedText());
 
                 userData.put("mydon", myDonImg.toString());
                 userData.put("dan", danwi.toString());
                 userData.put("nickName", nickName.asNormalizedText());
-
-                UserEntity userEntity = new UserEntity();
-
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String format_time2 = format.format(System.currentTimeMillis());
-
-                userEntity.setDanwi(userData.get("dan").toString());
-                userEntity.setUserId(id);
-                userEntity.setUserPassword(crypto.passwordCrypting(password));
-                userEntity.setDonderName(userData.get("nickName").toString());
-                userEntity.setMydonImage(myDonImg.toString());
-                userEntity.setCreatedTime(format_time2);
-                loginRepository.save(userEntity);
+                userData.put("id", id);
+                userData.put("password", crypto.passwordCrypting(password));
+                loginQuery.insertUser(userData);
 
                 return userData;
 

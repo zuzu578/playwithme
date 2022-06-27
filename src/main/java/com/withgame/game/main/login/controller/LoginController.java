@@ -42,9 +42,9 @@ public class LoginController {
 
         try {
             HashMap<String, Object> userData = loginService.doLogin(id, password);
-            if (userData == null) {
-                return new ResponseEntity<>("아이디 혹은 비밀번호를 확인해주세요.", HttpStatus.BAD_REQUEST);
-            }
+            // if (userData == null) {
+            // return new ResponseEntity<>("아이디 혹은 비밀번호를 확인해주세요.", HttpStatus.BAD_REQUEST);
+            // }
             return new ResponseEntity<>(userData, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);

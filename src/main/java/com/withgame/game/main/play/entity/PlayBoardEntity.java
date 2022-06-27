@@ -15,6 +15,9 @@ public class PlayBoardEntity {
     @Column(name = "donder_name")
     private String donderName;
 
+    @Column(name = "location")
+    private String location;
+
     @Column(name = "danwi")
     private String danwi;
 
@@ -35,6 +38,25 @@ public class PlayBoardEntity {
 
     @Column(name = "twitter_account")
     private String twitterAccount;
+
+    @Column(name = "mydon_Image")
+    private String mydonImage;
+
+    public String getMydonImage() {
+        return mydonImage;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setMydonImage(String mydonImage) {
+        this.mydonImage = mydonImage;
+    }
 
     public String getTwitterAccount() {
         return twitterAccount;

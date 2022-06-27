@@ -1,5 +1,6 @@
 package com.withgame.game.main.play.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,9 @@ public class PlayWidthFriendsService {
     }
 
     public void regist(PlayBoardEntity parameter) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format_time2 = format.format(System.currentTimeMillis());
+        parameter.setCreatedTime(format_time2);
         playBoardRepository.save(parameter);
     }
 
